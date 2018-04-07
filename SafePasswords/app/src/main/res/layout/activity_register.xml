@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:background="@color/black">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/login_layout1"
+            android:layout_marginTop="45dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_textinputlayout"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/register_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/login_layout2"
+            android:layout_below="@+id/login_layout1"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_textinputlayout"
+            android:textColorHint="@color/white">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/register_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/login_layout3"
+            android:layout_below="@+id/login_layout2"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_textinputlayout"
+            android:textColorHint="@color/white">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/confirm_register_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_do_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_layout3"
+            android:layout_marginTop="25dp"
+            android:text="Register"
+            android:background="@color/black_light"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/button_goto_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Login"
+            android:layout_below="@id/button_do_register"
+            android:background="@color/black_light"
+            android:textColor="@color/white"
+            android:onClick="goToLogin"
+            />
+
+    </RelativeLayout>
+
+</ScrollView>
