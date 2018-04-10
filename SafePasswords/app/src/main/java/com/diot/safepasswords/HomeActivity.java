@@ -144,7 +144,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public  void logout(){
+    public  void logout(){ 
         SharedPreferences sharedpreferences = getSharedPreferences(HomeActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.clear();
