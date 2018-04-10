@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     SharedPreferences sharedpreferences;
     enum Status
     {
-        TRUE,FALSE,NOTCONNECTED;
+        TRUE,FALSE,NOTCONNECTED
     }
     Status status;
     @Override
@@ -36,6 +36,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         intiallize();
         bdologin.setOnClickListener(this);
+//        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+//        sessionemail = sharedpreferences.getString("sessionemail","null");
+//        if(!sessionemail.equals("null")){
+//            doLogin();
+//        }
+//        Toast.makeText(this,""+sessionemail,Toast.LENGTH_SHORT).show();
     }
 
     private void intiallize() {
@@ -51,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("sessionemail",sessionemail);
+        editor.commit();
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
     }

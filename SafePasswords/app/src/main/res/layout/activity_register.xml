@@ -23,6 +23,7 @@
                 android:id="@+id/register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ff0"
                 android:hint="Email"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -40,6 +41,7 @@
                 android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ff0"
                 android:hint="Password" />
         </android.support.design.widget.TextInputLayout>
 
@@ -56,6 +58,7 @@
                 android:id="@+id/confirm_register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ff0"
                 android:hint="Password" />
         </android.support.design.widget.TextInputLayout>
 

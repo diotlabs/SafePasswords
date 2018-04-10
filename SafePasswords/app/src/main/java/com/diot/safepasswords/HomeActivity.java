@@ -58,8 +58,9 @@ public class HomeActivity extends AppCompatActivity
         SharedPreferences sharedpreferences = getSharedPreferences(HomeActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         sessionemail = sharedpreferences.getString("sessionemail","null");
 
-        //tvnavsessionemail = navigationView.findViewById(R.id.textView);
-        //tvnavsessionemail.setText(sessionemail);
+//        Toast.makeText(this,""+sessionemail,Toast.LENGTH_SHORT).show();
+//        tvnavsessionemail = navigationView.findViewById(R.id.textView);
+//        tvnavsessionemail.setText(sessionemail);
 
     }
 
@@ -108,7 +109,7 @@ public class HomeActivity extends AppCompatActivity
         switch (id){
             case R.id.action_settings:
                 //TODO setting to be done
-                
+
                 return true;
             case R.id.action_logout:
                 logout();
@@ -152,5 +153,11 @@ public class HomeActivity extends AppCompatActivity
         startActivity(intent);
         finish();
         Toast.makeText(this,"Logging out!",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        logout();
     }
 }
