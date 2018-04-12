@@ -52,9 +52,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         int id = v.getId();
         switch (id){
             case R.id.button_do_register:
-                String email = etregemail.getText().toString();
-                String pass = etregpassword.getText().toString();
-                String passconf = etregpasswordconfirm.getText().toString();
+                String email = etregemail.getText().toString().trim();
+                String pass = etregpassword.getText().toString().trim();
+                String passconf = etregpasswordconfirm.getText().toString().trim();
                 if(!(email.contains("@") && email.contains(".com"))){
                     Toast.makeText(this,"Not a valid email!",Toast.LENGTH_SHORT).show();
                 }
@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(this,"Too short password.\nMin 6 characters!",Toast.LENGTH_LONG).show();
                 }
                 else if(pass.equals(passconf)){
-                    registerUser(email,pass);
+                    registerUser(email,MD5.getMD5(pass+email).trim());
                 }
                 else{
                     Toast.makeText(this,"Confirm password did'nt matched!",Toast.LENGTH_SHORT).show();
@@ -143,7 +143,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             protected String doInBackground(String... params) {
-
                 JSONObject jsonObject = jsonBuilderIsHere(email,password);
                 Log.e("doinback","before");
                 String result = loginuser.sendPostRequest(REGISTER_URL, jsonObject);
@@ -171,6 +170,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         return null;
     }
+
 
     protected void parseJSON(String json){
         JSONObject jsonObject=null;

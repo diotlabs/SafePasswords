@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             protected String doInBackground(String... params) {
 
-                JSONObject jsonObject = jsonBuilderIsHere();
+                JSONObject jsonObject = jsonBuilderIsHere(email,password);
                 Log.e("doinback","before");
                 String result = loginuser.sendPostRequest(REGISTER_URL, jsonObject);
                 Log.e("doinback","after");
@@ -150,10 +150,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int id = v.getId();
         switch (id){
             case R.id.button_do_login:
-                String email = etloginemail.getText().toString();
-                String password = etloginpassword.getText().toString();
+                String email = etloginemail.getText().toString().trim();
+                String password = etloginpassword.getText().toString().trim();
                 if (email.contains("@") && email.contains(".com") && password.length() >= 5){
-                    loginUser(email, password);
+                    loginUser(email, MD5.getMD5(password+email));
                     Log.e("Status",""+status);
                 }
                 else{
@@ -166,12 +166,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private JSONObject jsonBuilderIsHere() {
+    private JSONObject jsonBuilderIsHere(String email, String password) {
         JSONObject jsonObject = null;
         jsonObject = new JSONObject();
         try {
-            jsonObject.accumulate("email", etloginemail.getText().toString());
-            jsonObject.accumulate("password", etloginpassword.getText().toString());
+            jsonObject.accumulate("email", email);
+            jsonObject.accumulate("password", password);
             return jsonObject;
         } catch (JSONException e) {
             Log.e("Nish", "Can't format JSON!");
