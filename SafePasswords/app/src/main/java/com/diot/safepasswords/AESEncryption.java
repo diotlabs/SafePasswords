@@ -4,9 +4,15 @@ package com.diot.safepasswords;
  * Created by Nishant on 12-04-2018.
  */
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * This example program shows how AES encryption and decryption can be done in Java.
@@ -16,8 +22,15 @@ import javax.crypto.SecretKey;
  */
 public class AESEncryption {
     SecretKey secKey;
+    String keydata;
     byte[] cipherText;
     private static final String    HEXES    = "0123456789ABCDEF";
+
+    public AESEncryption(String key) {
+        keydata = key;
+        setSecKey(keydata);
+    }
+
     /**
      * 1. Generate a plain text for encryption
      * 2. Get a secret key (printed in hexadecimal form). In actual use this must
@@ -29,7 +42,7 @@ public class AESEncryption {
 
 //        String decryptedText = decryptText(cipherText, secKey);
 
-        secKey = getSecretEncryptionKey();
+        //secKey = getSecretEncryptionKey();
         cipherText = encryptText(plainText, secKey);
         //System.out.println("Original Text:" + plainText);
         //System.out.println("AES Key (Hex Form):"+bytesToHex(secKey.getEncoded()));
@@ -41,6 +54,26 @@ public class AESEncryption {
     public SecretKey getSecKey(){
         return secKey;
     }
+
+    private void setSecKey(String keydata){
+        byte[] key = new byte[0];
+        try {
+            key = (keydata).getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        MessageDigest sha = null;
+        try {
+            sha = MessageDigest.getInstance("SHA-1");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        key = sha.digest(key);
+        key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+        secKey = new SecretKeySpec(key, "AES");
+    }
+
 
     /**
      * gets the AES encryption key. In your actual programs, this should be safely

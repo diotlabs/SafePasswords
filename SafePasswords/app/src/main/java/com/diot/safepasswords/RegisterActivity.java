@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void registerUser(final String email, final String password) {
         class RegisterUser extends AsyncTask<String, Void, String> {
             ProgressDialog loading = null;
-            LoginClass loginuser = new LoginClass();
+            ConnectClass loginuser = new ConnectClass();
             //            EditText EditText = null;
             @Override
             protected void onPreExecute() {

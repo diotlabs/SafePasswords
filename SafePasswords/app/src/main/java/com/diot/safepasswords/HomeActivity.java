@@ -21,7 +21,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView tvnavsessionemail;
-
+    AllUtiityOneClass allUtiityOneClass;
     public static final String MyPREFERENCES = "Session" ;
     public static String sessionemail = "";
 
@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        allUtiityOneClass = new AllUtiityOneClass();
 
         //navDataSetOnLogin();
 
@@ -114,6 +115,9 @@ public class HomeActivity extends AppCompatActivity
             case R.id.action_logout:
                 logout();
                 return true;
+            case android.R.id.home:
+                logout();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -155,9 +159,23 @@ public class HomeActivity extends AppCompatActivity
         Toast.makeText(this,"Logging out!",Toast.LENGTH_SHORT).show();
     }
 
-
-   /* protected void onPause() {
+    protected void onPause() {
         super.onPause();
+        if(allUtiityOneClass.isAppIsInBackground(this))
+            logout();
+    }
+
+//    @Override
+//    protected void onUserLeaveHint() {
+//        super.onUserLeaveHint();
+//        logout();
+//    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
         logout();
-    }*/
+    }
 }
+

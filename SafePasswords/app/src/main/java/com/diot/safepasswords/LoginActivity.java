@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -70,9 +69,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loginUser(final String email, final String password) {
-        class RegisterUser extends AsyncTask<String, Void, String> {
+        class LoginUser extends AsyncTask<String, Void, String> {
             ProgressDialog loading = null;
-            LoginClass loginuser = new LoginClass();
+            ConnectClass loginuser = new ConnectClass();
 //            TextView textView = null;
             @Override
             protected void onPreExecute() {
@@ -141,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
 
-        RegisterUser ru = new RegisterUser();
+        LoginUser ru = new LoginUser();
         ru.execute(email);
     }
 
