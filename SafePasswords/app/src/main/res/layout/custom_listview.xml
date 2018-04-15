@@ -9,10 +9,22 @@
    <TextView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:id="@+id/textView_name"/>
+       android:id="@+id/textView_username"
+       android:textColor="@color/white"
+       android:layout_marginTop="5dp"
+       android:textSize="20dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_username"/>
+        android:id="@+id/textView_website"
+        android:layout_below="@id/textView_username"
+        android:textColor="#808080"
+
+        android:textSize="15dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/border"
+        android:layout_below="@id/textView_website"/>
 
 </RelativeLayout>

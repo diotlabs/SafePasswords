@@ -14,8 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,6 +28,11 @@ public class HomeActivity extends AppCompatActivity
     AllUtiityOneClass allUtiityOneClass;
     public static final String MyPREFERENCES = "Session" ;
     public static String sessionemail = "";
+
+    //
+    List<ListDataModal> dataList;
+    ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,25 @@ public class HomeActivity extends AppCompatActivity
 //        Toast.makeText(this,""+sessionemail,Toast.LENGTH_SHORT).show();
 //        tvnavsessionemail = navigationView.findViewById(R.id.textView);
 //        tvnavsessionemail.setText(sessionemail);
+
+
+        //custom list
+
+
+        //initializing objects
+        dataList = new ArrayList<>();
+        listView = (ListView) findViewById(R.id.home_listview);
+
+        //adding some values to our list
+        dataList.add(new ListDataModal("nikhil_cs", "nikhil.com"));
+        dataList.add(new ListDataModal("Joker", "websitename.com"));
+
+
+        //creating the adapter
+        MyListAdapter adapter = new MyListAdapter(this, R.layout.custom_listview, dataList);
+
+        //attaching adapter to the listview
+        listView.setAdapter(adapter);
 
     }
 
