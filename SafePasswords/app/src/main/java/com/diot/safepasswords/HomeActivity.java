@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View view) {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                Intent intent = new Intent(HomeActivity.this, AddItemActivity.class);
+                Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
                 startActivity(intent);
             }
         });
@@ -200,10 +200,10 @@ public class HomeActivity extends AppCompatActivity
 //    }
 
 
-    @Override
+   /* @Override
     public void finish() {
         super.finish();
         logout();
-    }
+    }*/
 }
 
