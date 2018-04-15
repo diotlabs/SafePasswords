@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 public class DetailsActivity extends AppCompatActivity {
 
     //bydefault password is hidden
-    boolean showPass = false;
+    boolean showPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,14 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+
+    initializeVars();   //to toggle password visibility
     }
 
+    public  void initializeVars(){
+        //bydefault password is hidden
+         showPass = true;
+    }
     //toggle password view
     public void togglePassword(View view){
 

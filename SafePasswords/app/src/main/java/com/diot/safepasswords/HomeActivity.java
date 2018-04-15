@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity
     public static final String MyPREFERENCES = "Session" ;
     public static String sessionemail = "";
 
-    //
+    //custome listview
     List<ListDataModal> dataList;
     ListView listView;
 
@@ -75,6 +75,13 @@ public class HomeActivity extends AppCompatActivity
 
         //custom list
 
+        updatelist();
+
+
+    }
+
+    //putting data in custom listview
+    public void updatelist(){
 
         //initializing objects
         dataList = new ArrayList<>();
@@ -90,7 +97,6 @@ public class HomeActivity extends AppCompatActivity
 
         //attaching adapter to the listview
         listView.setAdapter(adapter);
-
     }
 
     private void navDataSetOnLogin() {
