@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UpdateActivity"
+    android:background="@color/black">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Username"
+            android:textColor="@color/white"
+            android:id="@+id/textView1"
+            />
+
+        <EditText
+            android:id="@+id/editText_update_username"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/textView1"
+            android:background="@drawable/rounded_textinputlayout"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Website"
+            android:textColor="@color/white"
+            android:id="@+id/textView2"
+            android:layout_below="@id/editText_update_username"
+            />
+
+        <EditText
+            android:id="@+id/editText_update_website"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/textView2"
+            android:background="@drawable/rounded_textinputlayout"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Password"
+            android:textColor="@color/white"
+            android:id="@+id/textView3"
+            android:layout_below="@id/editText_update_website"
+            />
+
+        <EditText
+            android:id="@+id/editText_update_password"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/textView3"
+            android:inputType="textPassword"
+            android:background="@drawable/rounded_textinputlayout"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Notes"
+            android:textColor="@color/white"
+            android:id="@+id/textView4"
+            android:layout_below="@id/editText_update_password"
+            />
+
+        <EditText
+            android:id="@+id/editText_update_notes"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/textView4"
+            android:inputType="textMultiLine"
+            android:background="@drawable/rounded_textinputlayout"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/button_update_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Update Credentials"
+            android:layout_below="@id/editText_update_notes"
+            android:background="@color/black_light"
+            android:textColor="@color/white"
+            />
+
+    </RelativeLayout>
+
+</ScrollView>
