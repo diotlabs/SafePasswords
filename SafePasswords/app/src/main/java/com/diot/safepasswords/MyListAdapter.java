@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.List;
 
@@ -41,18 +45,35 @@ public class MyListAdapter extends ArrayAdapter<ListDataModal> {
         View view = layoutInflater.inflate(resource, null, false);
 
         //getting the view elements of the list from the view
-
-        TextView textViewTitle = view.findViewById(R.id.textView_title);
+        ImageView imageView = view.findViewById(R.id.imageView_list);
+        TextView textViewName = view.findViewById(R.id.textView_title);
         TextView textViewWeb = view.findViewById(R.id.textView_website);
 
         //getting the hero of the specified position
         ListDataModal hero = datalist.get(position);
 
         //adding values to the list item
-
-        textViewTitle.setText(hero.getTitle());
+       // imageView.setImageDrawable(context.getResources().getDrawable(hero.getImage()));
+        textViewName.setText(hero.getTitle());
         textViewWeb.setText(hero.getWebsite());
 
+
+        //
+        //get first letter of each String item
+        String firstLetter = String.valueOf(hero.getTitle().charAt(0));
+
+
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        // generate random color
+        int color = generator.getColor(getItem(position));
+        //int color = generator.getRandomColor();
+
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(firstLetter.toUpperCase(), color); // radius in px
+
+        imageView.setImageDrawable(drawable);
+
+//
 
 
         //finally returning the view
@@ -60,7 +81,7 @@ public class MyListAdapter extends ArrayAdapter<ListDataModal> {
     }
 
     //this method will remove the item from the list
-    private void removeHero(final int position) {
+    private void removeItem(final int position) {
         //Creating an alert dialog to confirm the deletion
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Are you sure you want to delete this?");

@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View view) {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                Intent intent = new Intent(HomeActivity.this, AddItemActivity.class);
+                Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
                 startActivity(intent);
             }
         });
@@ -90,6 +90,7 @@ public class HomeActivity extends AppCompatActivity
         //adding some values to our list
         dataList.add(new ListDataModal("nikhil_cs", "nikhil.com"));
         dataList.add(new ListDataModal("Joker", "websitename.com"));
+        dataList.add(new ListDataModal("Credit Card", "creditcard.com"));
 
 
         //creating the adapter
