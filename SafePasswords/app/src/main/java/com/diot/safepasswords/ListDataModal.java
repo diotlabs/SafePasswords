@@ -1,15 +1,15 @@
 package com.diot.safepasswords;
 
 public class ListDataModal {
-    String username, website;
+    String title, website;
 
-    public ListDataModal(String username, String website) {
-        this.username = username;
+    public ListDataModal(String title, String website) {
+        this.title = title;
         this.website = website;
     }
 
-    public String getUsername() {
-        return username;
+    public String getTitle() {
+        return title;
     }
 
     public String getWebsite() {

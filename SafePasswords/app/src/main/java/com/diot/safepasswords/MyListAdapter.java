@@ -42,7 +42,7 @@ public class MyListAdapter extends ArrayAdapter<ListDataModal> {
 
         //getting the view elements of the list from the view
 
-        TextView textViewName = view.findViewById(R.id.textView_username);
+        TextView textViewTitle = view.findViewById(R.id.textView_title);
         TextView textViewWeb = view.findViewById(R.id.textView_website);
 
         //getting the hero of the specified position
@@ -50,7 +50,7 @@ public class MyListAdapter extends ArrayAdapter<ListDataModal> {
 
         //adding values to the list item
 
-        textViewName.setText(hero.getUsername());
+        textViewTitle.setText(hero.getTitle());
         textViewWeb.setText(hero.getWebsite());
 
 

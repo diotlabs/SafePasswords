@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etusername, etwebsite, etpassword, etnotes;
+    EditText ettitle,etusername, etwebsite, etpassword, etnotes;
     Button bsavedata;
 
     public static final String MyPREFERENCES = "Session" ;
@@ -32,21 +32,22 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         switch (id){
             case R.id.button_save_data:
                 AESEncryption aesEncryption = new AESEncryption(sessionemail);
+                String title = ettitle.getText().toString();
                 String username = etusername.getText().toString();
                 String website = etwebsite.getText().toString();
                 String password = etpassword.getText().toString();
                 String notes = etnotes.getText().toString();
-                if(username.length()!=0 && website.length() != 0 && password.length() != 0 && notes.length() != 0){
+                if(title.length()!=0 && username.length()!=0 && website.length() != 0 && password.length() != 0 && notes.length() != 0){
                     try {
-                        submitalldata(aesEncryption.doEncryptionAES(sessionemail),aesEncryption.doEncryptionAES(username),aesEncryption.doEncryptionAES(website),aesEncryption.doEncryptionAES(password),aesEncryption.doEncryptionAES(notes));
-                        //submitalldata(username,website,password,notes);
+                            submitalldata(aesEncryption.doEncryptionAES(title),aesEncryption.doEncryptionAES(sessionemail), aesEncryption.doEncryptionAES(username),aesEncryption.doEncryptionAES(website),aesEncryption.doEncryptionAES(password),aesEncryption.doEncryptionAES(notes));
+                        //submitalldata(title,sessionemail,username,website,password,notes);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                else if(username.length()!=0 && website.length() != 0 && password.length() != 0){
+                else if(title.length()!=0 && username.length()!=0 && website.length() != 0 && password.length() != 0){
                     try {
-                        submitalldata(aesEncryption.doEncryptionAES(sessionemail),aesEncryption.doEncryptionAES(username),aesEncryption.doEncryptionAES(website),aesEncryption.doEncryptionAES(password),aesEncryption.doEncryptionAES("NA"));
+                        submitalldata(aesEncryption.doEncryptionAES(title),aesEncryption.doEncryptionAES(sessionemail),aesEncryption.doEncryptionAES(username),aesEncryption.doEncryptionAES(website),aesEncryption.doEncryptionAES(password),aesEncryption.doEncryptionAES("NA"));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -73,6 +74,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initialize() {
+        ettitle = findViewById(R.id.editText_title);
         etusername = findViewById(R.id.editText_username);
         etpassword = findViewById(R.id.editText_password);
         etwebsite = findViewById(R.id.editText_website);
@@ -80,7 +82,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         bsavedata = findViewById(R.id.button_save_data);
     }
 
-    private void submitalldata(final String email, final String username, final String website, final String password, final String notes) {
+    private void submitalldata(final String title, final String email, final String username, final String website, final String password, final String notes) {
         class SubmitData extends AsyncTask<String, Void, String> {
             ProgressDialog loading = null;
             ConnectClass loginuser = new ConnectClass();
@@ -153,7 +155,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             protected String doInBackground(String... params) {
-                JSONObject jsonObject = jsonBuilderIsHere(email,username,website,password,notes);
+                JSONObject jsonObject = jsonBuilderIsHere(title,email,username,website,password,notes);
                 Log.e("doinback","before");
                 String result = loginuser.sendPostRequest(REGISTER_URL, jsonObject);
                 Log.e("doinback","after");
@@ -163,16 +165,16 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         SubmitData ru = new SubmitData();
-        ru.execute(username,website,password,notes);
+        ru.execute(title,username,website,password,notes);
     }
 
 
 
-    private JSONObject jsonBuilderIsHere(String email, String username, String website, String password, String notes) {
+    private JSONObject jsonBuilderIsHere(String title, String email, String username, String website, String password, String notes) {
         JSONObject jsonObject = null;
         jsonObject = new JSONObject();
         try {
-
+            jsonObject.accumulate("title", title);
             jsonObject.accumulate("email", email);
             jsonObject.accumulate("username", username);
             jsonObject.accumulate("website", website);
