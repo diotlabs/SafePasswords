@@ -16,9 +16,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:text="Title"
+            android:textColor="@color/white"
+            android:id="@+id/textView0"
+            />
+
+        <EditText
+            android:id="@+id/editText_update_title"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/textView0"
+            android:background="@drawable/rounded_textinputlayout"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:text="Username"
             android:textColor="@color/white"
             android:id="@+id/textView1"
+            android:layout_below="@id/editText_update_title"
             />
 
         <EditText

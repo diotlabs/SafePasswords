@@ -53,12 +53,13 @@ public class MyListAdapter extends ArrayAdapter<ListDataModal> {
         ListDataModal hero = datalist.get(position);
 
         //adding values to the list item
+        
        // imageView.setImageDrawable(context.getResources().getDrawable(hero.getImage()));
         textViewName.setText(hero.getTitle());
         textViewWeb.setText(hero.getWebsite());
 
 
-        //
+//TEXT DRAWABLE
         //get first letter of each String item
         String firstLetter = String.valueOf(hero.getTitle().charAt(0));
 
@@ -73,7 +74,7 @@ public class MyListAdapter extends ArrayAdapter<ListDataModal> {
 
         imageView.setImageDrawable(drawable);
 
-//
+//TEXT DRAWABLE ENDED
 
 
         //finally returning the view
