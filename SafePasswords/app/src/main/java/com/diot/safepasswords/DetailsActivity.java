@@ -14,6 +14,7 @@ public class DetailsActivity extends AppCompatActivity {
     //bydefault password is hidden
     boolean showPass;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

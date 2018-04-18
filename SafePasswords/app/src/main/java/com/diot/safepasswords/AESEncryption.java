@@ -4,7 +4,10 @@ package com.diot.safepasswords;
  * Created by Nishant on 12-04-2018.
  */
 
+import android.util.Log;
+
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -21,7 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Nishant
  */
 public class AESEncryption {
-    SecretKey secKey;
+    SecretKey secKey=null;
     String keydata;
     byte[] cipherText;
     private static final String    HEXES    = "0123456789ABCDEF";
@@ -105,16 +108,19 @@ public class AESEncryption {
 
     /**
      * Decrypts encrypted byte array using the key used for encryption.
-     * @param byteCipherText
-     * @param secKey
+     * @param stringCipherText
      * @return
      * @throws Exception
      */
-    public static String decryptText(byte[] byteCipherText, SecretKey secKey) throws Exception {
+    public String decryptText(String stringCipherText) throws Exception {
+
         // AES defaults to AES/ECB/PKCS5Padding in Java 7
+        byte[] byteCipherText = hexStringToByteArray(stringCipherText);
+        //Log.e("Test",bytesToHex(byteCipherText));
         Cipher aesCipher = Cipher.getInstance("AES");
         aesCipher.init(Cipher.DECRYPT_MODE, secKey);
         byte[] bytePlainText = aesCipher.doFinal(byteCipherText);
+//        Log.e("byteplainText",new String(bytePlainText));
         return new String(bytePlainText);
     }
 
@@ -129,5 +135,15 @@ public class AESEncryption {
             hex.append(HEXES.charAt((b & 0xF0) >> 4)).append(HEXES.charAt((b & 0x0F)));
         }
         return hex.toString();
+    }
+
+    private static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
     }
 }

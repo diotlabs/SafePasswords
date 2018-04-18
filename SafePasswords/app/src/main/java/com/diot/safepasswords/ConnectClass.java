@@ -29,7 +29,7 @@ public class ConnectClass {
 
     public String sendPostRequest(String requestURL, JSONObject jsonObject) {
         URL url;
-        StringBuilder response = new StringBuilder();
+        StringBuilder response = new StringBuilder("");
         try {
             url = new URL(requestURL);
 

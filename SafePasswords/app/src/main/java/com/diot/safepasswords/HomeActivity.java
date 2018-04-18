@@ -1,8 +1,10 @@
 package com.diot.safepasswords;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,12 +13,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +40,16 @@ public class HomeActivity extends AppCompatActivity
 
     //custome listview
     List<ListDataModal> dataList;
+    List<OneDataClass> alldataList;
     ListView listView;
 
+    String json;
+    AESEncryption aesEncryption;
+    final String REGISTER_URL = "http://scholarshealthservices.com/safepasswordapplication/getalldata.php";
+    enum StatusReg{
+        TRUE,FALSE,NOTCONNECTED,NODATA
+    }
+    StatusReg status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +68,7 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View view) {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
+                Intent intent = new Intent(HomeActivity.this, AddItemActivity.class);
                 startActivity(intent);
             }
         });
@@ -67,7 +84,7 @@ public class HomeActivity extends AppCompatActivity
 
         SharedPreferences sharedpreferences = getSharedPreferences(HomeActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         sessionemail = sharedpreferences.getString("sessionemail","null");
-
+        aesEncryption = new AESEncryption(sessionemail);
 //        Toast.makeText(this,""+sessionemail,Toast.LENGTH_SHORT).show();
 //        tvnavsessionemail = navigationView.findViewById(R.id.textView);
 //        tvnavsessionemail.setText(sessionemail);
@@ -75,22 +92,33 @@ public class HomeActivity extends AppCompatActivity
 
         //custom list
 
-        updatelist();
+        try {
+            getData(aesEncryption.doEncryptionAES(sessionemail));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        updatelist();
 
+    }
 
+    public void goToAddNewItem(View view)
+    {
+        Intent intent = new Intent(HomeActivity.this, AddItemActivity.class);
+        startActivity(intent);
     }
 
     //putting data in custom listview
     public void updatelist(){
 
         //initializing objects
-        dataList = new ArrayList<>();
+//        dataList = new ArrayList<>();
         listView = (ListView) findViewById(R.id.home_listview);
+//
+//        //adding some values to our list
+//        dataList.add(new ListDataModal("nikhil_cs", "nikhil.com"));
+//        dataList.add(new ListDataModal("Joker", "websitename.com"));
+//        dataList.add(new ListDataModal("Credit Card", "creditcard.com"));
 
-        //adding some values to our list
-        dataList.add(new ListDataModal("nikhil_cs", "nikhil.com"));
-        dataList.add(new ListDataModal("Joker", "websitename.com"));
-        dataList.add(new ListDataModal("Credit Card", "creditcard.com"));
 
 
         //creating the adapter
@@ -200,6 +228,162 @@ public class HomeActivity extends AppCompatActivity
             logout();
     }
 
+
+    private void getData(final String key) {
+        class GetAllData extends AsyncTask<String, Void, String> {
+            ProgressDialog loading = null;
+            ConnectClass loginuser = new ConnectClass();
+            //            EditText EditText = null;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+//                EditText = (EditText) findViewById(R.id.);
+                loading = ProgressDialog.show(HomeActivity.this, "Please Wait", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+                loading.dismiss();
+                TextView tvnodata = findViewById(R.id.textView_nodatashow);
+//                if(loading != null && loading.isShowing()){ loading.dismiss();}
+//                json = new String(response);
+//                response.trim();
+                Log.e("response", response);
+                String email, stat = "";
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+//                    getAllDataFromJSON(jsonObject);
+                    stat = jsonObject.getString("stat").toString();
+                    email = jsonObject.getString("email").toString();
+                    Log.e("stat",stat);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("stat",stat);
+                dataList = new ArrayList<>();
+
+                if(stat.contains("nodata")) {
+                    status = StatusReg.NODATA;
+                }
+                else if(stat.contains("false")) {
+                    status = StatusReg.FALSE;
+                }
+                else if(stat.contains("true")){
+                    status = StatusReg.TRUE;
+                }
+                else{
+                    status = StatusReg.NOTCONNECTED;
+                }
+                tvnodata.setVisibility(View.GONE);
+                if(status == StatusReg.NODATA) {
+                    tvnodata.setVisibility(View.VISIBLE);
+                }
+                else if (status == StatusReg.TRUE) {
+//                    Toast.makeText(ForgottenPassword.this,json,Toast.LENGTH_SHORT).show();
+//                    EditText.setText(json);
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgottenPassword.this);
+//                    builder.setTitle(json);
+//                    builder.setMessage(json);
+//                    builder.create().show();
+//                    Intent intent = new Intent(LoginActivity.this,ResetPassword.class);
+//                    intent.putExtra("email",etloginemail.getText().toString());
+//                    startActivity(intent);
+
+//                    Toast.makeText(HomeActivity.this,"Registered "+email+" :).",Toast.LENGTH_SHORT).show();
+                    getAllDataFromJSON(jsonObject);
+                    updatelist();
+//                    Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+//                    startActivity(intent);
+//                    finish();
+                } else if(status == HomeActivity.StatusReg.FALSE){
+                    Toast.makeText(HomeActivity.this,"Please try again :(",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(HomeActivity.this,"Please Enable INTERNET!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                JSONObject jsonObject = jsonBuilderIsHere(key);
+                Log.e("doinback","before");
+                String result = loginuser.sendPostRequest(REGISTER_URL, jsonObject);
+                Log.e("doinback","after");
+                return result;
+            }
+
+        }
+
+        GetAllData ru = new GetAllData();
+        ru.execute(key);
+    }
+
+    private void getAllDataFromJSON(JSONObject response) {
+        alldataList = new ArrayList<>();
+        dataList = new ArrayList<>();
+        try {
+            JSONArray jArray = response.getJSONArray("alldata");
+            Log.e("data length!",""+jArray.length());
+            for(int i=0;i<jArray.length();i++) {
+                //Log.e("Title","Test");
+                JSONObject json_data = jArray.getJSONObject(i);
+                OneDataClass oneDataClass = new OneDataClass();
+//                Log.e("Title","Test2  "+json_data.getString("title"));
+                oneDataClass.dataid = i;
+                oneDataClass.datatitle = aesEncryption.decryptText(json_data.getString("title"));
+                oneDataClass.datausername = aesEncryption.decryptText(json_data.getString("username"));
+                oneDataClass.datapassword = aesEncryption.decryptText(json_data.getString("password"));
+                oneDataClass.datawebsites = aesEncryption.decryptText(json_data.getString("website"));
+                oneDataClass.datanotes = aesEncryption.decryptText(json_data.getString("notes"));
+                ListDataModal listDataModal = new ListDataModal(oneDataClass.dataid,oneDataClass.datatitle,oneDataClass.datawebsites);
+                Log.e("Title","Test3");
+                alldataList.add(oneDataClass);
+                dataList.add(listDataModal);
+            }
+            SharedPreferences mPrefs = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor prefsEditor = mPrefs.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(alldataList);
+            prefsEditor.putString("alldatalist", json);
+            prefsEditor.commit();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private JSONObject jsonBuilderIsHere(String key) {
+        JSONObject jsonObject = null;
+        jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("emailkey", key);
+           // jsonObject.accumulate("password", password);
+            return jsonObject;
+        } catch (JSONException e) {
+            Log.e("Nish", "Can't format JSON!");
+        }
+        return null;
+    }
+
+
+    protected void parseJSON(String json){
+        JSONObject jsonObject=null;
+        try {
+            jsonObject = new JSONObject(json);
+//                password = jsonObject.getString("password");
+//            event2 = jsonObject.getString("event2");
+//            event3 = jsonObject.getString("event3");
+//            event4 = jsonObject.getString("event4");
+//                 = jo.getString("");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 //    @Override
 //    protected void onUserLeaveHint() {
 //        super.onUserLeaveHint();
@@ -212,5 +396,14 @@ public class HomeActivity extends AppCompatActivity
         super.finish();
         logout();
     }*/
+
+   /*
+        //To get data back as Object from SharedPrefrences
+        SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("MyObject", "");
+        MyObject obj = gson.fromJson(json, MyObject.class);
+
+    */
 }
 
