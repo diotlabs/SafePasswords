@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,20 +113,22 @@ public class HomeActivity extends AppCompatActivity
 
         //initializing objects
 //        dataList = new ArrayList<>();
-        listView = (ListView) findViewById(R.id.home_listview);
-//
-//        //adding some values to our list
-//        dataList.add(new ListDataModal("nikhil_cs", "nikhil.com"));
-//        dataList.add(new ListDataModal("Joker", "websitename.com"));
-//        dataList.add(new ListDataModal("Credit Card", "creditcard.com"));
-
-
+        listView = findViewById(R.id.home_listview);
 
         //creating the adapter
         MyListAdapter adapter = new MyListAdapter(this, R.layout.custom_listview, dataList);
 
         //attaching adapter to the listview
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(HomeActivity.this,DetailsActivity.class);
+                OneDataClass oneDataClass = alldataList.get(position);
+                intent.putExtra("OneDataClass",oneDataClass);
+                startActivity(intent);
+            }
+        });
     }
 
     private void navDataSetOnLogin() {
@@ -256,7 +259,7 @@ public class HomeActivity extends AppCompatActivity
                     jsonObject = new JSONObject(response);
 //                    getAllDataFromJSON(jsonObject);
                     stat = jsonObject.getString("stat").toString();
-                    email = jsonObject.getString("email").toString();
+//                    email = jsonObject.getString("email").toString();
                     Log.e("stat",stat);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -331,7 +334,7 @@ public class HomeActivity extends AppCompatActivity
                 JSONObject json_data = jArray.getJSONObject(i);
                 OneDataClass oneDataClass = new OneDataClass();
 //                Log.e("Title","Test2  "+json_data.getString("title"));
-                oneDataClass.dataid = i;
+                oneDataClass.dataid = Integer.parseInt(json_data.getString("id"));
                 oneDataClass.datatitle = aesEncryption.decryptText(json_data.getString("title"));
                 oneDataClass.datausername = aesEncryption.decryptText(json_data.getString("username"));
                 oneDataClass.datapassword = aesEncryption.decryptText(json_data.getString("password"));
@@ -384,7 +387,17 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-//    @Override
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            getData(aesEncryption.doEncryptionAES(sessionemail));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //    @Override
 //    protected void onUserLeaveHint() {
 //        super.onUserLeaveHint();
 //        logout();
