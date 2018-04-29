@@ -2,6 +2,7 @@ package com.diot.safepasswords;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -47,6 +49,7 @@ public class HomeActivity extends AppCompatActivity
     String json;
     AESEncryption aesEncryption;
     final String REGISTER_URL = "http://scholarshealthservices.com/safepasswordapplication/getalldata.php";
+    final String REGISTER_URL2 = "http://scholarshealthservices.com/safepasswordapplication/deleteonedata.php";
     enum StatusReg{
         TRUE,FALSE,NOTCONNECTED,NODATA
     }
@@ -127,6 +130,35 @@ public class HomeActivity extends AppCompatActivity
                 OneDataClass oneDataClass = alldataList.get(position);
                 intent.putExtra("OneDataClass",oneDataClass);
                 startActivity(intent);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final OneDataClass oneDataClass = alldataList.get(position);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HomeActivity.this);
+                alertDialogBuilder.setMessage("Are you sure, You want to delete "+oneDataClass.datatitle);
+                        alertDialogBuilder.setPositiveButton("yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        Toast.makeText(HomeActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
+                                        deleteOneItem(String.valueOf(oneDataClass.dataid));
+                                    }
+                                });
+
+                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+
+                return true;
             }
         });
     }
@@ -364,13 +396,14 @@ public class HomeActivity extends AppCompatActivity
         jsonObject = new JSONObject();
         try {
             jsonObject.accumulate("emailkey", key);
-           // jsonObject.accumulate("password", password);
+            // jsonObject.accumulate("password", password);
             return jsonObject;
         } catch (JSONException e) {
             Log.e("Nish", "Can't format JSON!");
         }
         return null;
     }
+
 
 
     protected void parseJSON(String json){
@@ -418,5 +451,122 @@ public class HomeActivity extends AppCompatActivity
         MyObject obj = gson.fromJson(json, MyObject.class);
 
     */
+
+    private void deleteOneItem(final String id) {
+        class GetAllData extends AsyncTask<String, Void, String> {
+            ProgressDialog loading = null;
+            ConnectClass loginuser = new ConnectClass();
+            //            EditText EditText = null;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+//                EditText = (EditText) findViewById(R.id.);
+                loading = ProgressDialog.show(HomeActivity.this, "Please Wait", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+                loading.dismiss();
+                TextView tvnodata = findViewById(R.id.textView_nodatashow);
+//                if(loading != null && loading.isShowing()){ loading.dismiss();}
+//                json = new String(response);
+//                response.trim();
+                Log.e("response", response);
+                String error="", message="";
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+//                    getAllDataFromJSON(jsonObject);
+                    error = jsonObject.getString("error").toString();
+                    message = jsonObject.getString("message").toString();
+//                    email = jsonObject.getString("email").toString();
+                    Log.e("message",message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                Log.e("stat",stat);
+                dataList = new ArrayList<>();
+
+                if(message.contains("No data found")) {
+                    status = StatusReg.NODATA;
+                }
+                else if(message.contains("Error deleteing, Try again")) {
+                    status = StatusReg.FALSE;
+                }
+                else if(message.contains("Data deleted")){
+                    status = StatusReg.TRUE;
+                }
+                else{
+                    status = StatusReg.NOTCONNECTED;
+                }
+                tvnodata.setVisibility(View.GONE);
+                if(status == StatusReg.NODATA) {
+                    tvnodata.setVisibility(View.VISIBLE);
+                }
+                else if (status == StatusReg.TRUE) {
+//                    Toast.makeText(ForgottenPassword.this,json,Toast.LENGTH_SHORT).show();
+//                    EditText.setText(json);
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgottenPassword.this);
+//                    builder.setTitle(json);
+//                    builder.setMessage(json);
+//                    builder.create().show();
+//                    Intent intent = new Intent(LoginActivity.this,ResetPassword.class);
+//                    intent.putExtra("email",etloginemail.getText().toString());
+//                    startActivity(intent);
+
+                    Toast.makeText(HomeActivity.this,"Item Deleted :)",Toast.LENGTH_SHORT).show();
+//                    getAllDataFromJSON(jsonObject);
+//                    updatelist();
+//                    Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+//                    startActivity(intent);
+//                    finish();
+
+                    restartCurrentActivity();
+                } else if(status == StatusReg.FALSE){
+                    Toast.makeText(HomeActivity.this,"Please try again :(",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(HomeActivity.this,"Please Enable INTERNET!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                JSONObject jsonObject = jsonBuilderIsHere2(id);
+                Log.e("doinback","before");
+                String result = loginuser.sendPostRequest(REGISTER_URL2, jsonObject);
+                Log.e("doinback","after");
+                return result;
+            }
+        }
+        GetAllData ru = new GetAllData();
+        ru.execute(id);
+    }
+
+    private void restartCurrentActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+    private JSONObject jsonBuilderIsHere2(String id) {
+        JSONObject jsonObject = null;
+        jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("id", id);
+            jsonObject.accumulate("emailkey", aesEncryption.doEncryptionAES(sessionemail));
+            // jsonObject.accumulate("password", password);
+            return jsonObject;
+        } catch (JSONException e) {
+            Log.e("Nish", "Can't format JSON!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
 }
 

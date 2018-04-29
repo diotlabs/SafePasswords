@@ -21,7 +21,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     EditText ettitle,etusername, etwebsite, etpassword, etnotes;
     Button bsavedata;
 
-    public static final String MyPREFERENCES = "Session" ;
+//    public static final String MyPREFERENCES = "Session" ;
     public static String sessionemail = "";
     final String REGISTER_URL = "http://scholarshealthservices.com/safepasswordapplication/submitdata.php";
     String json;
