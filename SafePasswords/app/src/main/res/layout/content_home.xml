@@ -20,10 +20,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/textView_nodatashow"
-        android:textSize="30sp"
+        android:textSize="20dp"
         android:visibility="gone"
-        android:text="No data\nAdd New Item"
+        android:text="No Passwords\nClick on plus button to add new entry"
         android:gravity="center"
         android:onClick="goToAddNewItem"
-        android:textColor="@color/white"/>
+        android:textColor="@android:color/darker_gray"/>
 </RelativeLayout>

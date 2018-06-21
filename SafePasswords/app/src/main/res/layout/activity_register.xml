@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@color/black">
 
     <RelativeLayout
@@ -73,6 +75,15 @@
             android:text="Register"
             android:background="@color/black_light"
             android:textColor="@color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_do_register"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:layout_marginTop="25dp"
+            android:text="Already have an account, Click on Login"
+            android:id="@+id/textView5"/>
 
         <Button
             android:id="@+id/button_goto_login"
@@ -81,7 +92,7 @@
             android:layout_marginBottom="25dp"
             android:layout_marginTop="15dp"
             android:text="Login"
-            android:layout_below="@id/button_do_register"
+            android:layout_below="@id/textView5"
             android:background="@color/black_light"
             android:textColor="@color/white"
             android:onClick="goToLogin"

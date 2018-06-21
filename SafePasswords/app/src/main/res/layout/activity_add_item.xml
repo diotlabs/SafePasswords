@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddItemActivity"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_horizontal_margin">
 
-        <TextView
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -27,14 +29,31 @@
             android:layout_height="35dp"
             android:layout_below="@id/textView0"
             android:background="@drawable/rounded_textinputlayout"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"/-->
 
-        <TextView
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/reg_layout1"
+            android:layout_marginTop="45dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_textinputlayout"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/editText_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:hint="Title"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="Username"
-            android:layout_below="@id/editText_title"
+            android:layout_below="@id/reg_layout1"
             android:textColor="@color/white"
             android:id="@+id/textView1"
             />
@@ -45,9 +64,27 @@
             android:layout_height="35dp"
             android:layout_below="@id/textView1"
             android:background="@drawable/rounded_textinputlayout"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"/-->
 
-        <TextView
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/reg_layout2"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_textinputlayout"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:layout_below="@id/reg_layout1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/editText_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:hint="Username"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -63,9 +100,27 @@
             android:layout_height="35dp"
             android:layout_below="@id/textView2"
             android:background="@drawable/rounded_textinputlayout"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"/-->
 
-        <TextView
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/reg_layout3"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_textinputlayout"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:layout_below="@id/reg_layout2">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/editText_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:hint="Website"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -82,9 +137,26 @@
             android:layout_below="@id/textView3"
             android:inputType="textPassword"
             android:background="@drawable/rounded_textinputlayout"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"/-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/reg_layout4"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_textinputlayout"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:layout_below="@id/reg_layout3">
 
-        <TextView
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/editText_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:hint="Password"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -101,16 +173,34 @@
             android:layout_below="@id/textView4"
             android:inputType="textMultiLine"
             android:background="@drawable/rounded_textinputlayout"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"/-->
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/reg_layout5"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_textinputlayout"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:layout_below="@id/reg_layout4">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/editText_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:hint="Notes"
+                />
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/button_save_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:text="Save Credential"
-            android:layout_below="@id/editText_notes"
+            android:layout_below="@id/reg_layout5"
             android:background="@color/black_light"
             android:textColor="@color/white"
             />
